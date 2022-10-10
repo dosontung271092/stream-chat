@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+
+    <div id="div-chat">
+        <p>Online user:</p>
+        <ul id="ulUser"></ul>
+        
+        <h3>Your ID: <span id="my-peer" ></span></h3>
+        <video id="localStream" width="300" controls></video>
+        <br><br>
+        <video id="remoteStream" width="300" controls></video>
+        <br><br>
+    
+        <input type="text" id="remoteId" placeholder="Remote ID">
+        <button id="btnCall">Call</button> 
+    </div>
+
+    <div id="div-dang-ky">
+        <br><br>
+        <input type="text" id="txtUsername" placeholder="Enter your username">
+        <button id="btnSignUp">Sign Up</button> 
+    </div>
+
+    <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/streaml.js"></script>
+
+</body>
+</html>
