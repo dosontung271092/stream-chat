@@ -2980,8 +2980,8 @@ body.authentication-bg {
 }
 
 .chatbox {
-    width: 300px;
-
+    width: 23%;
+    background-color: white;
     border-radius: .25rem;
     z-index: 99;
     position:fixed;

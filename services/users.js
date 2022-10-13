@@ -20,7 +20,7 @@ const _usersLogin = [
 const _usersOnlline = [];
 
 function userLogin( username, password ){
-    return _usersLogin.some(u => u.username === username, u.password === password);
+    return _usersLogin.some(u => u.username === username && u.password === password);
 }
 
 function storeUser( user ){

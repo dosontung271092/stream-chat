@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
 const path = require('path');
-const mysql = require('mysql');
 const {storeUser, userLogin, userLeave, checkUserOnlline, getCurrentUser} = require('./services/users')
 const formatMessage = require('./services/messages')
 
