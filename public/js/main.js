@@ -136,7 +136,7 @@ socket.on('IOS_UsersOnllineList', ({usersOnlline, user}) =>{
     // Disconect
     socket.on('IOS_UserDisconnect', peerId => {
         videoElement = document.getElementById("video-" + peerId);
-        videoElement.parentElement.querySelector('.remote-dname').innerHTML = 'Name';
+        remoteVideoElement.parentElement.querySelector('.time').style.display = "none";
         videoElement.parentElement.innerHTML = videoElement.parentElement.innerHTML;
     });
 

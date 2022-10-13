@@ -5031,8 +5031,11 @@ div.dt-button-info h2 {
 	width: 20px;padding: 0 5px 2px 0px;
 }
 
-.time{
+.video-grid__item .time{
     display: none;
+}
+
+.time{
 	color:#000;
 	position: absolute;
 	font-size: 13px;
