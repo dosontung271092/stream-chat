@@ -1,45 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
-			crossorigin="anonymous"
-		/>
-		<link rel="stylesheet" href="css/style.css" />
-		<title>Ứng dụng chat</title>
-	</head>
-	<body>
-		<div class="join-container">
-			<header class="join-header">
-				<h1><i class="fas fa-smile"></i> Ứng dụng chat</h1>
-			</header>
-			<main class="join-main">
-				<form action="chat.html">
-					<div class="form-control">
-						<label for="username">Tài khoản</label>
-						<input
-							type="text"
-							name="username"
-							id="username"
-							placeholder="Nhập tài khoản"
-							required
-						/>
-					</div>
-					<div class="form-control">
-						<label for="room">Phòng</label>
-						<select name="room" id="room">
-							<option value="1">1</option>
-							<option value="2">2</option>
-						</select>
-					</div>
-					<button type="submit" class="btn">Vào chat</button>
-				</form>
-			</main>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+
+      <!-- App favicon -->
+      <link rel="shortcut icon" href="assets/images/favicon.ico">
+    
+      <!-- App css -->
+      <link href="assets/css/bootstrap.min.css?v=1" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
+      <link href="assets/css/app.min.css?v=2" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
+      <link href="assets/css/reponsive.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" disabled />    
+      <link href="assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet"  disabled />     
+	  <link href="assets/css/reponsive.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        #video-template-hidden{
+            display: none;
+        }
+		
+        #cover-loader{
+            position: fixed;
+            z-index: 999999999999999999999;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            display: flex;
+        }
+
+        #loader {
+            margin: auto;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 70px;
+            height: 70px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="cover-loader">
+        <div id="loader"></div>
+    </div>
+
+    <div id="login-block">
+		<div class="account-pages my-5">
+			<div class="container">
+			   <div class="row justify-content-center">
+				  <div class="title">
+					 <h2>
+						NSV VIDEO MEETING SYSTEM <span>Ver 1.0</span>
+						<div class="clearfix"></div>
+					 </h2>
+				  </div>
+				  <div class="col-xl-4">
+					 <div class="card">
+						<div class="p-0">
+						   <div class="row g-0">
+							  <div class="col-lg-12 bg-white p-4">
+								 <h3 class="h5 mb-4  text-center">Please Login</h3>
+								 <p style="color:red; background-color: pink; padding: 10px; font-weight: bold; display: none;" id="login-error-message"></p>
+								 <form class="authentication-form">
+									<div class="mb-3">
+									   <label class="form-label">User<span style="color:red"> *</span></label>
+									   <div class="input-group">
+										  <span class="input-group-text">
+										  <i class="icon-dual" data-feather="user"></i>
+										  </span>
+										  <input type="text" class="form-control" id="txt-username" placeholder="User">
+									   </div>
+									</div>
+									<div class="mb-3">
+									   <label class="form-label">Password<span style="color:red"> *</span></label>
+									   <div class="input-group">
+										  <span class="input-group-text">
+										  <i class="icon-dual" data-feather="lock"></i>
+										  </span>
+										  <input type="password" class="form-control" id="txt-password" placeholder="Enter your password">
+									   </div>
+									</div>
+									<div class="mb-3">
+									   <label class="form-label">Your Name<span style="color:red"> *</span></label>
+									   <div class="input-group">
+										  <span class="input-group-text">
+										  <i class="icon-dual" data-feather="edit"></i>
+										  </span>
+										  <input type="text" autocomplete="off" id="nick-name" class="pass-key input-login form-control" placeholder="Enter your name" maxlength="100"/>               
+									   </div>
+									</div>
+									<div class=" text-center d-grid">
+									   <button class="btn btn-primary" type="button" id="btn-sign-up">Log In</button>
+									</div>
+								 </form>
+							  </div>
+						   </div>
+						</div>
+						<!-- end card-body -->
+					 </div>
+					 <!-- end card -->
+					 <!-- end row -->
+				  </div>
+				  <!-- end col -->
+			   </div>
+			   <!-- end row -->
+			</div>
+			<!-- end container -->
+		 </div>
+    </div>
+
+    <div id="chat-block">
+		<div class="save-userinfo">
+			<input id="my-peer-id" type="hidden" disabled>
+			<input id="my-latitude" type="hidden" disabled>
+			<input id="my-longitude" type="hidden" disabled>
 		</div>
-	</body>
+		<!-- Begin page -->
+		<div id="wrapper">
+			<!-- Topbar Start -->
+			<div class="navbar-custom">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+						<h2>NSV VIDEO MEETING SYSTEM <span>Ver 1.0</span>
+						</h2>
+						</div>
+						<div class="col-md-6">
+						<ul class="list-unstyled topnav-menu float-end ">
+							<li>
+								<div class=" bg-date">
+									<div class="date" id="printDate"></div>
+									<span class="date text-white" >-</span>
+									<div class="date" id="printTime"></div>
+								</div>
+							</li>
+							<li class="dropdown  d-lg-inline-block topbar-dropdown">
+								<a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+								<i data-feather="user" style="height:14px"></i> <span class="align-middle" id="header-username">Vietnam</span>
+								</a>
+								<div class="dropdown-menu dropdown-menu-end">
+									<!-- item-->
+									<a href="/index.html" class="dropdown-item">
+										<span class="align-middle" style="color:#000">Logout</span>
+									</a>
+								</div>
+							</li>
+						</ul>
+						</div>
+						<!-- LOGO -->
+					</div>
+				</div>
+			</div>
+			<!-- end Topbar -->
+			<!-- ============================================================== -->
+			<!-- Start Page Content here -->
+			<!-- ============================================================== -->
+			<div class="content-page ">
+				<div class="content ">
+					<div class="container-fluid">
+						<div class="row">
+						<div class="col-md-9">
+							<div class="row">
+								<div class="current">
+									<div class="card card3d">
+										<div class="card-body">
+											<div class="nav">
+												<div class="badge btn-secondary"><span id="local-dname"></span></div>
+												<button class="badge btn-secondary show-map">
+													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>Location
+												</button>
+											</div>
+											<video id="local-stream" poster="assets/images/video1.jpg"></video>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5 mb-5">
+									<div class="card">
+										<div class="card-body video-grid__item">
+											<div class="nav">
+												<div class="badge btn-secondary remote-dname">Name</div>
+												<button class="badge btn-secondary show-map">
+													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
+													<span>Location</span>
+												</button>
+											</div>
+											<video poster="assets/images/empty.jpg"></video>
+										</div>
+									</div>
+									<!-- end card -->
+								</div>
+								<div class="col-md-2"></div>
+								<div class="col-md-5 mb-5">
+									<div class="card">
+										<div class="card-body video-grid__item">
+											<div class="nav">
+												<div class="badge btn-secondary remote-dname">Name</div>
+												<button class="badge btn-secondary show-map">
+													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
+													<span>Location</span>
+												</button>
+											</div>
+											<video poster="assets/images/empty.jpg"></video>
+										</div>
+									</div>
+									<!-- end card -->
+								</div>
+								<div class="col-md-5">
+									<div class="card ">
+										<div class="card-body video-grid__item">
+											<div class="nav">
+												<div class="badge btn-secondary remote-dname">Name</div>
+												<button class="badge btn-secondary show-map">
+													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
+													<span>Location</span>
+												</button>
+											</div>
+											<video poster="assets/images/empty.jpg"></video>
+										</div>
+									</div>
+									<!-- end card -->
+								</div>
+								<div class="col-md-2"></div>
+								<div class="col-md-5">
+									<div class="card">
+										<div class="card-body video-grid__item">
+											<div class="nav">
+												<div class="badge btn-secondary remote-dname">Name</div>
+												<button class="badge btn-secondary show-map">
+													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
+													<span>Location</span>
+												</button>
+											</div>
+											<video poster="assets/images/empty.jpg"></video>
+										</div>
+									</div>
+									<!-- end card -->
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<section class="chatbox">
+								<section class="chat-window" id="chat-window">
+								</section>
+								<form class="chat-input" id="chat-form">
+									<input type="text" id="msg" placeholder="Type a message" />
+									<button>
+									<svg style="width:24px;height:24px; margin-top:5px" viewBox="0 0 24 24">
+										<path fill="rgba(0,0,0,.38)" d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
+									</svg>
+									</button>
+								</form>
+							</section>
+						</div>
+						<!-- end row -->
+						<!-- widgets -->
+						<!-- end row -->
+						</div>
+						<!-- container -->
+					</div>
+					<!-- content for PC -->
+				</div>
+			</div>
+			<!-- Start Content for mobile-->
+			<!-- Footer Start -->
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<script>document.write(new Date().getFullYear())</script> &copy; by Netsurf Vietnam. All Rights Reserved 
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- end Footer -->
+		</div>
+		<!-- End wrapper -->
+
+		<!-- modal -->
+		<div class="modal fade" id="event-modal" tabindex="-1" style="z-index:1111111">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header py-3 px-4 border-bottom-0 d-block">
+					<button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-hidden="true"></button>
+					<h5 class="modal-title" id="modal-title">Map Location</h5>
+				</div>
+				<div class="modal-body px-4 pb-4">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15678.621278273713!2d106.61734189999999!3d10.761025250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752c5418e29ea1%3A0x5d0d5c26049741ea!2sBinh%20Tan%20District%20Hospital!5e0!3m2!1sen!2s!4v1665538421251!5m2!1sen!2s" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				</div>
+			</div> <!-- end modal-content-->
+		</div> <!-- end modal dialog-->
+		</div>
+    </div>
+
+    <div id="video-template-hidden">
+		<div class="nav">
+			<div class="badge btn-secondary">Name</div>
+			<button class="badge btn-secondary show-map">
+				<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
+				<span>Location</span>
+			</button>
+		</div>
+		<video poster="assets/images/empty.jpg"></video>
+    </div>
+
+	<div id="map-modal" class="modal" tabindex="-1" style="z-index: 10000">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Map Location</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div id="google-map" style="height: 400px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+    <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+	<script src="assets/js/vendor.min.js"></script>     
+      <!-- App js -->
+      <script src="assets/js/app.min.js"></script>
+      <script>
+         var date = new Date();
+         const elementDate = document.getElementById("printDate");
+         const elementDay = document.getElementById("printDay");
+         const elementTime = document.getElementById("printTime");
+         const listOfDays = [
+         "Sunday",
+         "Monday",
+         "Tuesday",
+         "Wednesday",
+         "Thursday",
+         "Friday",
+         "Saturday"
+         ];
+         
+         function printDate() {
+         var day = date.getDate();
+         var month = date.getMonth();
+         var year = date.getFullYear();
+         var month = date.getMonth() + 1;
+         
+         elementDate.innerHTML = year + "/" + month.toString().padStart(2, "0") + "/" + day.toString().padStart(2, "0");
+         }
+         
+         function printDay() {
+         date = new Date();
+         var numberOfDay = date.getDay();
+         var day = listOfDays[numberOfDay];
+         if (elementDay) elementDay.innerHTML = day;
+         }
+         
+         function printTime() {
+         date = new Date();
+         var hours = date.getHours();
+         var minutes = date.getMinutes();
+         var seconds = date.getSeconds();
+         
+         if (seconds < 10) {
+         seconds = "0" + seconds;
+         }
+         if (minutes < 10) {
+         minutes = "0" + minutes;
+         }
+         
+         elementTime.innerHTML = hours + ":" + minutes + ":" + seconds
+         }
+         
+         setInterval(function() {
+         printTime();
+         printDate();
+         printDay();
+         }, 1000);
+      </script>
+    <script src="js/main.js"></script>
+
+</body>
 </html>

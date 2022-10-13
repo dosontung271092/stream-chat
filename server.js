@@ -1,62 +1,89 @@
 const express = require('express');
-const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
-const {storeUser, getCurrentUser, getRoomUsers, userLeave} = require('./services/users')
+const path = require('path');
+const mysql = require('mysql');
+const {storeUser, userLogin, userLeave, isExistUsername} = require('./services/users')
 const formatMessage = require('./services/messages')
 
 const app = express();
-const PORT = 3000;
-const BotName = "Bot";
-
 const server = http.createServer(app);
 const io = socketio(server);
+app.use(express.static(path.join(__dirname, 'public')));
+const BotName = "Bot";
 
 // chạy khi client kết nối
 io.on('connection', socket => {
+    // Login
+    socket.on('IOC_AcountLogin', user => {
 
-    // User vào phòng
-    socket.on('userJoinRoom', ({username, room}) => {
-        socket.join(room);
-        
-        // Chào user mới vào phòng
-        io.to(room).emit('serverMessage', formatMessage(BotName, `Chào mừng <b>${username}</b> vào phòng <b>${room}</b>`));
-        storeUser( socket.id, username, room );
+        // Login with database
+        let querylogin = `SELECT * FROM tblmstaff WHERE StaffID = '${user.username}' AND Password = '${user.password}'`;
 
-        // Gửi thông tin phòng và danh sách tất cả users trong phòng
-        io.to(room).emit('roomUsers',{
-            room: room,
-            users: getRoomUsers(room)
-        }); 
-    })
-   
+        //Connect MySQL
+        var con = mysql.createConnection({
+          host: "localhost",
+          user: "root",
+          password: "",
+          database: "tblmstaff"
+        });
 
-    // Nhận tin nhắn từ client
-    socket.on('chatMessage', (message) => {
-        const user = getCurrentUser(socket.id);
-        io.to(user.room).emit('serverMessage', formatMessage(user.username, message));
-    })
+        con.connect(function(err) {
+            if (err){
+                return socket.emit('IOS_LoginResult', ({isSuccess: false, message: err}));
+            };
 
+            con.query(querylogin, function (err, result, fields) {
+                
+                if (err){
+                    return socket.emit('IOS_LoginResult', ({isSuccess: false, message: err}));
+                };
 
-    // Chạy khi mà client mất kết nối
-    socket.on('disconnect', ()=>{
-        const user = userLeave(socket.id);
-        io.to(user.room).emit('serverMessage', formatMessage(BotName, `<b>${user.username}</b> đã rời phòng`));
+                // Db does not exsit user
+                if( ! result.length > 0 ){
+                    return socket.emit('IOS_LoginResult', ({isSuccess: false, message: 'Wrong username or password!'}));
+                }
 
-        // Gửi thông tin phòng và danh sách tất cả users trong phòng
-        io.to(user.room).emit('roomUsers',{
-            room: user.room,
-            users: getRoomUsers(user.room)
-        }); 
+                const isUserOnlline = isExistUsername(user.username);
+                
+                if( isUserOnlline ){
+                    return socket.emit('IOS_LoginResult', ({isSuccess: false, message:'User is being onlline!'}));
+                }
+
+                socket.peerId = user.peerId;
+                socket.dname = user.dname;
+                socket.username = user.username;
+
+                let usersOnlline = storeUser( user );
+
+                io.emit('IOS_UsersOnllineList', ({usersOnlline, user}));
+                io.emit('IOS_Message', formatMessage(BotName, null , `<b>${user.dname}</b> joined</b>`));            
+            });
+        });
     });
 
- 
+    socket.on('IOC_Message', (message) => {
+        io.emit('IOS_Message', formatMessage(socket.dname, socket.username, message));
+    })
 
+    // Mất kết nối
+    socket.on('disconnect', () => {
+        // Chat 
+        io.emit('IOS_Message', formatMessage(BotName, null , `<b>${socket.dname}</b> left</b>`));  
 
+        // Stream
+        io.emit('IOS_UserDisconnect', socket.peerId);
+        
+        // remove user
+        userLeave(socket.peerId);
+    });
 });
 
+// Config port
+const PORT = 3000;
 server.listen( PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+
+
