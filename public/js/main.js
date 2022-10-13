@@ -125,6 +125,7 @@ socket.on('IOS_UsersOnllineList', ({usersOnlline, user}) =>{
                 const call = peer.call(user.peerId, stream);
                 remoteVideoElement = document.getElementById("video-" + user.peerId);
                 remoteVideoElement.parentElement.querySelector('.remote-dname').innerHTML = user.dname;
+                remoteVideoElement.parentElement.querySelector('.time').style.display = "block";
                 remoteVideoElement.parentElement.querySelector('.show-map').setAttribute("onclick", `showMapLocation(${user.latitude}, ${user.longitude})`);
                 call.on('stream', remoteStream => playStream("video-" + user.peerId, remoteStream));
             }
@@ -135,8 +136,8 @@ socket.on('IOS_UsersOnllineList', ({usersOnlline, user}) =>{
     // Disconect
     socket.on('IOS_UserDisconnect', peerId => {
         videoElement = document.getElementById("video-" + peerId);
-        videoTemplate = document.getElementById("video-template-hidden").innerHTML;
-        videoElement.parentElement.innerHTML = videoTemplate;
+        videoElement.parentElement.querySelector('.remote-dname').innerHTML = 'Name';
+        videoElement.parentElement.innerHTML = videoElement.parentElement.innerHTML;
     });
 
 });

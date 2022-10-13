@@ -182,7 +182,7 @@
 									<div class="card card3d">
 										<div class="card-body">
 											<div class="nav">
-												<div class="badge btn-secondary"><span id="local-dname"></span></div>
+												<div class="badge text-bold remote-dname"><span id="local-dname"></span></div>
 												<button class="badge btn-secondary show-map">
 													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>Location
 												</button>
@@ -194,13 +194,12 @@
 								<div class="col-md-5 mb-5">
 									<div class="card">
 										<div class="card-body video-grid__item video-grid__item--tleft">
-											<div class="time">10:20:00 | Kubota</div>
-											<div class="nav">
-												<div class="badge btn-secondary remote-dname">Name</div>
+											<div class="time">
 												<button class="badge btn-secondary show-map">
 													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
 													<span>Location</span>
 												</button>
+												<div class="badge text-dark text-bold remote-dname">Name</div>
 											</div>
 											<video poster="assets/images/empty.jpg"></video>
 										</div>
@@ -211,8 +210,8 @@
 								<div class="col-md-5 mb-5">
 									<div class="card">
 										<div class="card-body video-grid__item video-grid__item--tright">
-											<div class="nav">
-												<div class="badge btn-secondary remote-dname">Name</div>
+											<div class="time text-right">
+												<div class="badge text-dark text-bold remote-dname">Name</div>
 												<button class="badge btn-secondary show-map">
 													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
 													<span>Location</span>
@@ -226,12 +225,12 @@
 								<div class="col-md-5">
 									<div class="card ">
 										<div class="card-body video-grid__item video-grid__item--bright">
-											<div class="nav">
-												<div class="badge btn-secondary remote-dname">Name</div>
+											<div class="time">
 												<button class="badge btn-secondary show-map">
 													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
 													<span>Location</span>
 												</button>
+												<div class="badge text-dark text-bold remote-dname">Name</div>
 											</div>
 											<video poster="assets/images/empty.jpg"></video>
 										</div>
@@ -242,8 +241,8 @@
 								<div class="col-md-5">
 									<div class="card">
 										<div class="card-body video-grid__item video-grid__item--bleft">
-											<div class="nav">
-												<div class="badge btn-secondary remote-dname">Name</div>
+											<div class="time text-right">
+												<div class="badge text-dark text-bold remote-dname">Name</div>
 												<button class="badge btn-secondary show-map">
 													<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
 													<span>Location</span>
@@ -308,17 +307,6 @@
 			</div> <!-- end modal-content-->
 		</div> <!-- end modal dialog-->
 		</div>
-    </div>
-
-    <div id="video-template-hidden">
-		<div class="nav">
-			<div class="badge btn-secondary remote-dname">Name</div>
-			<button class="badge btn-secondary show-map">
-				<i style="height:10px;margin-right:2px; width:10px" data-feather="map"></i>
-				<span>Location</span>
-			</button>
-		</div>
-		<video poster="assets/images/empty.jpg"></video>
     </div>
 
 	<div id="map-modal" class="modal" tabindex="-1" style="z-index: 10000">

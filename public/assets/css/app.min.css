@@ -5032,11 +5032,12 @@ div.dt-button-info h2 {
 }
 
 .time{
-	color:#000
-;
+    display: none;
+	color:#000;
 	position: absolute;
 	font-size: 13px;
 	padding: 4px;
+    z-index: 9;
 }
 .text-right{right:10px}
 
