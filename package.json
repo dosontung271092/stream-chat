@@ -2,10 +2,10 @@
   "name": "nodejs-socket-chat",
   "version": "1.0.0",
   "description": "Realtime test",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "author": "DST",
   "license": "ISC",
