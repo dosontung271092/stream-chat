@@ -38,6 +38,8 @@ io.on('connection', socket => {
         
         // Set peerId for user
         socket.peerId = user.peerId;
+
+        socket.emit('IOS_LoginResult', ({isSuccess: true, message:'Login success!'}));
     });
 
     socket.on('IOC_Message', (message) => {

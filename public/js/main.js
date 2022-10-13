@@ -86,7 +86,9 @@ document.getElementById('btn-sign-up').addEventListener('click', e =>{
 });
 
 socket.on('IOS_LoginResult', ({isSuccess, message}) => {
-    if( !isSuccess ){
+    if( isSuccess ){
+        displayStreamChat();
+    }else{
         displayLoginForm();
         displayLoginErrorMsg(message);
     }
@@ -96,9 +98,7 @@ socket.on('IOS_LoginResult', ({isSuccess, message}) => {
 
 // Get current users
 socket.on('IOS_UsersOnllineList', ({usersOnlline, user}) =>{
-    // Login and open stream success
-    displayStreamChat();
-    
+
     let localStreamId = document.getElementById("my-peer-id").value;
 
     // get videos element
