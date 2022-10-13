@@ -14,6 +14,10 @@ const _usersLogin = [
     {
         username: 'A0004',
         password: 'A0004',
+    },
+    {
+        username: 'A0004',
+        password: 'A0004',
     }
 ];
 
