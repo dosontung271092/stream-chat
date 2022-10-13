@@ -3,7 +3,7 @@ const http = require('http');
 const socketio = require('socket.io');
 const path = require('path');
 const mysql = require('mysql');
-const {storeUser, userLogin, userLeave, isExistUsername} = require('./services/users')
+const {storeUser, userLogin, userLeave, checkUserOnlline, getCurrentUser} = require('./services/users')
 const formatMessage = require('./services/messages')
 
 const app = express();
@@ -16,66 +16,58 @@ const BotName = "Bot";
 io.on('connection', socket => {
     // Login
     socket.on('IOC_AcountLogin', user => {
+        // Check exist account
+        let isLoginSuccess = userLogin(user.username, user.password);
+        if( !isLoginSuccess ){
+            return socket.emit('IOS_LoginResult', ({isSuccess: false, message: 'Wrong username or password!'}));
+        }
 
-        // Login with database
-        let querylogin = `SELECT * FROM tblmstaff WHERE StaffID = '${user.username}' AND Password = '${user.password}'`;
+        // Check is user onlline
+        let isUserOnlline = checkUserOnlline(user.username);
+        if( isUserOnlline ){
+            return socket.emit('IOS_LoginResult', ({isSuccess: false, message:'User is being onlline!'}));
+        }
 
-        //Connect MySQL
-        var con = mysql.createConnection({
-          host: "localhost",
-          user: "root",
-          password: "",
-          database: "tblmstaff"
-        });
+        // Save user
+        let usersOnlline = storeUser( user );
 
-        con.connect(function(err) {
-            if (err){
-                return socket.emit('IOS_LoginResult', ({isSuccess: false, message: err}));
-            };
+        // Return user lists
+        io.emit('IOS_UsersOnllineList', ({usersOnlline, user}));
 
-            con.query(querylogin, function (err, result, fields) {
-                
-                if (err){
-                    return socket.emit('IOS_LoginResult', ({isSuccess: false, message: err}));
-                };
-
-                // Db does not exsit user
-                if( ! result.length > 0 ){
-                    return socket.emit('IOS_LoginResult', ({isSuccess: false, message: 'Wrong username or password!'}));
-                }
-
-                const isUserOnlline = isExistUsername(user.username);
-                
-                if( isUserOnlline ){
-                    return socket.emit('IOS_LoginResult', ({isSuccess: false, message:'User is being onlline!'}));
-                }
-
-                socket.peerId = user.peerId;
-                socket.dname = user.dname;
-                socket.username = user.username;
-
-                let usersOnlline = storeUser( user );
-
-                io.emit('IOS_UsersOnllineList', ({usersOnlline, user}));
-                io.emit('IOS_Message', formatMessage(BotName, null , `<b>${user.dname}</b> joined</b>`));            
-            });
-        });
+        // Return join message
+        io.emit('IOS_Message', formatMessage(BotName, null , `<b>${user.dname}</b> joined</b>`)); 
+        
+        // Set peerId for user
+        socket.peerId = user.peerId;
     });
 
     socket.on('IOC_Message', (message) => {
-        io.emit('IOS_Message', formatMessage(socket.dname, socket.username, message));
+        // get current User
+        let currentUser = getCurrentUser(socket.peerId);
+
+        // Return quit message
+        if( currentUser ){
+            io.emit('IOS_Message', formatMessage(currentUser.dname, currentUser.username, message));
+        }
+        
     })
 
     // Mất kết nối
     socket.on('disconnect', () => {
-        // Chat 
-        io.emit('IOS_Message', formatMessage(BotName, null , `<b>${socket.dname}</b> left</b>`));  
+        // get current User
+        let currentUser = getCurrentUser(socket.peerId);
 
-        // Stream
-        io.emit('IOS_UserDisconnect', socket.peerId);
-        
-        // remove user
-        userLeave(socket.peerId);
+        if( currentUser ){
+            // Chat 
+            io.emit('IOS_Message', formatMessage(BotName, null , `<b>${currentUser.dname}</b> left</b>`));  
+
+            // Stream
+            io.emit('IOS_UserDisconnect', currentUser.peerId);
+
+            // remove user
+            userLeave(currentUser.peerId);
+        }
+
     });
 });
 

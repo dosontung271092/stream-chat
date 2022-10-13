@@ -28,7 +28,7 @@ function storeUser( user ){
     return _usersOnlline;
 }
 
-function isExistUsername( username ){
+function checkUserOnlline( username ){
     return _usersOnlline.some(u => u.username === username);
 }
 
@@ -52,5 +52,5 @@ module.exports = {
     getCurrentUser,
     getUsers,
     userLeave,
-    isExistUsername
+    checkUserOnlline
 }
