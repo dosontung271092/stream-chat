@@ -1,0 +1,354 @@
+@import url(https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&amp;display=swap);
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@500;600&family=Lora&family=Open+Sans:ital,wght@0,300;0,400;1,300&family=PT+Sans:ital@0;1&family=Quicksand:wght@300;400;600;700&family=Ubuntu:ital,wght@0,500;0,700;1,400;1,700&display=swap");
+
+body {
+  margin: 0;
+  font-family: arial;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #4b4b5a;
+  background: #e8ebed url(../images/bg-main.jpg) center !important;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.content-page {
+  margin: 80px auto;
+}
+
+.navbar-custom {
+  background-color: #323742;
+  padding: 10px 20px 0px 20px;
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  border-bottom: 1px solid #323742;
+  z-index: 1001;
+}
+
+.navbar-custom h2 {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 600;
+  color: #fff;
+  font-size: 22px;
+  margin: 5px 0 0;
+}
+
+.navbar-custom span {
+  font-size: 12px;
+  color: #fff;
+}
+
+.navbar-custom .topnav-menu > li {
+  float: left;
+}
+
+.navbar-custom .topnav-menu .nav-link {
+  padding: 0 12px 20px;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 32px;
+  display: block;
+  line-height: 30px;
+  text-align: center;
+  max-height: 30px;
+}
+
+.footer {
+  bottom: 0;
+  padding: 5px;
+  position: absolute;
+  right: 0;
+  color: #fff;
+  left: 0px;
+  border-top: 1px solid #e2e7f1;
+  background: #0b1b27 url("../images/bg.jpg");
+  font-size: 12px;
+}
+
+.navbar__date {
+  background: none;
+  border-radius: 4px;
+  margin-right: 20px;
+  padding: 5px;
+  display: flex;
+}
+
+.navbar__date-item {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0.5px;
+  color: #fff;
+}
+
+.login__form-title {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 600;
+  color: #077bb4;
+  font-size: 18px;
+  margin: 0px 0 20px !important;
+}
+
+.login__form-intro {
+  width: 100%;
+  text-align: center;
+}
+
+.login__form-introh2 {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 600;
+  color: #077bb4;
+  font-size: 22px;
+  line-height: 50px;
+}
+
+.login__form-intro span {
+  font-size: 12px;
+  color: #555;
+}
+
+.video-grid__item .video__description {
+  display: none;
+}
+
+.video__description {
+  color: #000;
+  position: absolute;
+  font-size: 13px;
+  padding: 4px;
+  z-index: 9;
+}
+
+.chat {
+  min-height: 85vh;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  border: 1px #b4c4da solid;
+}
+
+.chat__window {
+  flex: auto;
+  max-height: calc(100% - 60px);
+  overflow: auto;
+  padding: 15px 10px;
+}
+
+.chat__form {
+  flex: 0 0 auto;
+  height: 60px;
+  background: #1a3c6d;
+  border-top: 1px solid #2671ff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
+.chat__form input {
+  height: 59px;
+  line-height: 60px;
+  outline: 0 none;
+  border: none;
+  width: calc(100% - 60px);
+  color: white;
+  text-indent: 10px;
+  font-size: 12pt;
+  padding: 0;
+  background: #1a3c6d;
+}
+.chat__form button {
+  float: right;
+  outline: 0 none;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  padding: 2px 0 0 0;
+  margin: 10px;
+  transition: all 0.15s ease-in-out;
+}
+
+.chat .msg-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+.chat .msg-box {
+  background: #eef0f8;
+  padding: 10px 10px 0 10px;
+  border-radius: 6px;
+  max-width: 80%;
+  width: auto;
+  float: left;
+}
+
+.chat .flr {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 0px);
+}
+
+.chat .messages {
+  flex: 1 0 auto;
+}
+
+.chat .msg {
+  display: inline-block;
+  line-height: 13pt;
+  margin: 0 0 4px 0;
+}
+
+.chat .msg:first-of-type {
+  margin-top: 8px;
+}
+
+.chat .timestamp {
+  color: rgba(0, 0, 0, 0.38);
+  font-size: 9pt;
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+.chat .username {
+  margin-right: 3px;
+  font-weight: 600;
+}
+
+.chat .posttime {
+  margin-left: 3px;
+}
+
+.chat .msg-self .msg-box {
+  border-radius: 6px;
+  background: #cddbf6;
+  float: right;
+}
+
+.chat .msg-self .msg {
+  text-align: right;
+}
+
+.chat .msg-self .timestamp {
+  text-align: right;
+}
+
+.cover {
+  position: fixed;
+  z-index: 9999999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  display: flex;
+}
+
+.cover__loader {
+  margin: auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.login__required-symbol {
+  color: red;
+}
+.login__error-message {
+  color: red;
+  background-color: pink;
+  padding: 10px;
+  font-weight: bold;
+  display: none;
+}
+
+.modal {
+  z-index: 10000;
+}
+
+.modal__google-map {
+  height: 400px;
+}
+
+.stream__location-btn {
+  height: 10px;
+  margin-right: 2px;
+  width: 10px;
+}
+
+.chatbox__img-send-btn {
+  width: 24px;
+  height: 24px;
+  margin-top: 5px;
+}
+
+.card-body {
+  height: 280px;
+  overflow: hidden;
+}
+
+.card-body video {
+  width: 100%;
+}
+
+.card button {
+  border: none;
+}
+
+.video-local .card{
+  box-shadow: rgb(0 0 0 / 35%) 7px 11px 13px 1px,
+    rgb(0 0 0 / 32%) 7px 9px 13px 1px;
+  background-color: #11478a;
+}
+
+.card-body .nav {
+  padding: 2px 5px;
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.video-local {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 500px;
+  height: 300px;
+  z-index: 1111;
+}

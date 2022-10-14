@@ -1,5 +1,8 @@
+// *** WEB START ***
+
 const socket = io();
 let _username;
+let _peerId;
 
 // Display login form
 function displayLoginForm(){
@@ -19,16 +22,23 @@ function displayLoginErrorMsg(message){
 }
 
 // Display stream chat
-function displayStreamChat(){
+function displayStreamChat(user){
     document.getElementById('login-block').style.display = 'none';
     document.getElementById('chat-block').style.display = 'block';
     document.getElementById('cover-loader').style.display = "none";
+
+    // Display account info
+    if( user ){
+        document.getElementById("local-dname").innerHTML = user.dname;
+        document.getElementById('header-username').innerHTML = user.dname;
+        document.getElementById("local-stream").parentElement.querySelector('.show-map').setAttribute("onclick", `showMapLocation(${user.latitude}, ${user.longitude})`);
+    }
 }
 
 // By default we display login form
 displayLoginForm();
 
-// Get PeerID local
+// Get PeerID local for calling video stream
 var peer = new Peer();
 peer.on('open', function(peerId) {
     document.getElementById("my-peer-id").value = peerId;
@@ -41,16 +51,18 @@ if (navigator.geolocation) {
         document.getElementById("my-longitude").value = position.coords.longitude;
     });
 } else { 
-    alert("Geolocation is not supported by this browser.");
+    alert("Geolocation is not supported by this browser. Others in the conversation can not see your location!");
 }
 
-// Login
+
+// *** LOGIN ***
+
 document.getElementById('btn-sign-up').addEventListener('click', e =>{
     // display loader
     document.getElementById('cover-loader').style.display = "flex";
 
     // Get data
-    let peerId = document.getElementById("my-peer-id").value;
+    _peerId = document.getElementById("my-peer-id").value;
     let latitude = document.getElementById("my-latitude").value;
     let longitude = document.getElementById("my-longitude").value;
 
@@ -59,75 +71,70 @@ document.getElementById('btn-sign-up').addEventListener('click', e =>{
     let nname = document.getElementById('nick-name').value;
     let dname = _username + ' - ' + nname;
 
+    // Validate login form
     if( _username == '' || password == '' || nname == '' ){
         displayLoginForm();
         displayLoginErrorMsg("Please enter data for * fields!");
         return;
     }
 
-    // Login server
+    // Send login info to server
     socket.emit('IOC_AcountLogin', {
         username: _username, 
         password: password,
         nname: nname,
         dname: dname,
-        peerId:peerId, 
+        peerId: _peerId, 
         latitude: latitude, 
         longitude: longitude
     });
 
-
-
-    // Display account info
-    document.getElementById("local-dname").innerHTML = dname;
-    document.getElementById('header-username').innerHTML = dname;
-    document.getElementById("local-stream").parentElement.querySelector('.show-map').setAttribute("onclick", `showMapLocation(${latitude}, ${longitude})`);
-
 });
 
-socket.on('IOS_LoginResult', ({isSuccess, message}) => {
+socket.on('IOS_LoginResult', ({isSuccess, message, user = {}}) => {
     if( isSuccess ){
-        displayStreamChat();
+        displayStreamChat(user);
     }else{
         displayLoginForm();
         displayLoginErrorMsg(message);
     }
 });
 
-// End login
+// *** VIDEO STREAM ***
 
-// Get current users
-socket.on('IOS_UsersOnllineList', ({usersOnlline, user}) =>{
-
-    let localStreamId = document.getElementById("my-peer-id").value;
-
-    // get videos element
-    let remoteVideoElements = document.querySelectorAll('.video-grid__item video');
-
-
-    // Add id = peerId for video elements
-    let index = 0;
-    usersOnlline.forEach(user => {
-        if( localStreamId !=  user.peerId){
-            remoteVideoElements[index].id = "video-" + user.peerId;
-            index ++;
-        }
-    });
+// Get current users from server
+socket.on('IOS_UsersOnllineList', usersOnlline => {
 
     // Open all stream
     openStream().then(stream => {
         // open stream of myself
         playStream('local-stream', stream);
 
-        // call to another user
-        usersOnlline.forEach( user => {
-            if( localStreamId !=  user.peerId){
+        // get videos element
+        let remoteVideoElements = document.querySelectorAll('.video-grid__item video');
+
+        // Render user onlline remote with video
+        let index = 0;
+        usersOnlline.forEach(user => {
+            if( _peerId !=  user.peerId){
+                let remoteVideoElement = remoteVideoElements[index];
+                
+                // set Id value for remote video element
+                remoteVideoElement.id = user.peerId;
+
+                // Render video to grid
                 const call = peer.call(user.peerId, stream);
-                remoteVideoElement = document.getElementById("video-" + user.peerId);
-                remoteVideoElement.parentElement.querySelector('.remote-dname').innerHTML = user.dname;
-                remoteVideoElement.parentElement.querySelector('.time').style.display = "block";
-                remoteVideoElement.parentElement.querySelector('.show-map').setAttribute("onclick", `showMapLocation(${user.latitude}, ${user.longitude})`);
-                call.on('stream', remoteStream => playStream("video-" + user.peerId, remoteStream));
+
+                // Display user info on video
+                let parentE = remoteVideoElement.parentElement;
+                parentE.querySelector('.remote-dname').innerHTML = user.dname;
+                parentE.querySelector('.time').style.display = "block";
+                parentE.querySelector('.show-map').setAttribute("onclick", `showMapLocation(${user.latitude}, ${user.longitude})`);
+                
+                // Call to open video of remote user
+                call.on('stream', remoteStream => playStream(user.peerId, remoteStream));
+
+                index ++;
             }
         });
 
@@ -135,8 +142,8 @@ socket.on('IOS_UsersOnllineList', ({usersOnlline, user}) =>{
 
     // Disconect
     socket.on('IOS_UserDisconnect', peerId => {
-        videoElement = document.getElementById("video-" + peerId);
-        remoteVideoElement.parentElement.querySelector('.time').style.display = "none";
+        videoElement = document.getElementById(peerId);
+        videoElement.parentElement.querySelector('.time').style.display = "none";
         videoElement.parentElement.innerHTML = videoElement.parentElement.innerHTML;
     });
 
@@ -148,11 +155,14 @@ function openStream(){
     return navigator.mediaDevices.getUserMedia(config);
 }
 
+// Open video stream
 function playStream(IdElement, stream){
     if( IdElement != null ){
         const video = document.getElementById(IdElement);
-        video.srcObject = stream;
-        video.play();
+        if(video){
+            video.srcObject = stream;
+            video.play();
+        }
     }
 }
 
@@ -163,6 +173,60 @@ peer.on('call', call => {
         call.answer(stream);
     });
 });
+
+const showMapLocation = function (lat, long) {
+    const url = 'https://maps.google.com/maps?q=' + lat + ',' + long + '&z=16&output=embed';
+    const map = '<iframe src="' + url + '" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+    $("#google-map").html(map);
+    const modal = new bootstrap.Modal(document.getElementById('map-modal'), {
+        keyboard: false
+    })
+    modal.toggle()
+}
+
+
+// *** CHAT ***
+
+// Form messages
+const _chatWindowElement = document.getElementById("chat-window");
+const _chatFormElement = document.getElementById("chat-form");
+
+// Receive message from server
+socket.on('IOS_Message', (msgObj) => {
+
+    const msgElement = document.createElement('article');
+    msgElement.classList.add( 'msg-container' );
+    msgElement.classList.add( msgObj.username == _username ? 'msg-self' : 'msg-remote' );
+    msgElement.innerHTML =  `<div class="msg-box">
+                                    <div class="flr">
+                                        <div class="messages">
+                                            <p class="msg">
+                                                ${msgObj.msgContent}
+                                            </p>
+                                        </div>
+                                        <span class="timestamp"><span class="username">${msgObj.dname}</span>&bull;<span class="posttime">${msgObj.time}</span></span>
+                                    </div>
+                             </div>`
+
+
+    _chatWindowElement.appendChild(msgElement);
+
+    _chatWindowElement.scrollTop = _chatWindowElement.scrollHeight;
+});
+
+// Chat form submit
+_chatFormElement.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const inputMessage = e.target.elements.msg.value;
+    // Send message to server
+    socket.emit('IOC_Message', inputMessage);
+    // Clear input value
+    e.target.elements.msg.value = '';
+    e.target.elements.msg.focus();
+
+});
+
+// *** SUPPORT FUNCTIONS ***
 
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -186,58 +250,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
-
-const showMapLocation = function (lat, long) {
-    const url = 'https://maps.google.com/maps?q=' + lat + ',' + long + '&z=16&output=embed';
-    const map = '<iframe src="' + url + '" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
-    $("#google-map").html(map);
-    const modal = new bootstrap.Modal(document.getElementById('map-modal'), {
-        keyboard: false
-    })
-    modal.toggle()
-}
-
-
-// Chat
-
-
-// Form messages
-const chatWindow = document.getElementById("chat-window");
-const chatForm = document.getElementById("chat-form");
-
-// Nhận tin nhắn từ server
-socket.on('IOS_Message', (msgObj) => {
-
-    const msgElement = document.createElement('article');
-    msgElement.classList.add( 'msg-container' );
-    msgElement.classList.add( msgObj.username == _username ? 'msg-self' : 'msg-remote' );
-    msgElement.innerHTML =  `<div class="msg-box">
-                                    <div class="flr">
-                                        <div class="messages">
-                                            <p class="msg">
-                                                ${msgObj.msgContent}
-                                            </p>
-                                        </div>
-                                        <span class="timestamp"><span class="username">${msgObj.dname}</span>&bull;<span class="posttime">${msgObj.time}</span></span>
-                                    </div>
-                             </div>`
-
-
-    chatWindow.appendChild(msgElement);
-
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-});
-
-// Chat form submit
-chatForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const inputMessage = e.target.elements.msg.value;
-    // Gửi tin nhắn lên server
-    socket.emit('IOC_Message', inputMessage);
-    // Xóa tin nhắn ở ô input
-    e.target.elements.msg.value = '';
-    e.target.elements.msg.focus();
-
-});
-

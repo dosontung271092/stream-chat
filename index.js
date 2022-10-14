@@ -21,25 +21,26 @@ io.on('connection', socket => {
             return socket.emit('IOS_LoginResult', ({isSuccess: false, message: 'Wrong username or password!'}));
         }
 
-        // Check is user onlline
-        let isUserOnlline = checkUserOnlline(user.username);
-        if( isUserOnlline ){
+        // Check if user is onlline
+        let isOnlline = checkUserOnlline(user.username);
+        if( isOnlline ){
             return socket.emit('IOS_LoginResult', ({isSuccess: false, message:'User is being onlline!'}));
         }
 
         // Save user
-        let usersOnlline = storeUser( user );
+        let listOnllineUsers = storeUser( user );
 
         // Return user lists
-        io.emit('IOS_UsersOnllineList', ({usersOnlline, user}));
+        io.emit('IOS_UsersOnllineList', listOnllineUsers);
 
         // Return join message
         io.emit('IOS_Message', formatMessage(BotName, null , `<b>${user.dname}</b> joined</b>`)); 
         
-        // Set peerId for user
+        // Save peerId
         socket.peerId = user.peerId;
 
-        socket.emit('IOS_LoginResult', ({isSuccess: true, message:'Login success!'}));
+        // Return login success
+        socket.emit('IOS_LoginResult', ({isSuccess: true, message:'Login success!', user}));
     });
 
     socket.on('IOC_Message', (message) => {
