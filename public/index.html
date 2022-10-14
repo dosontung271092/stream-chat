@@ -1,261 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=, initial-scale=1.0">
-		<title>NSV VIDEO MEETING SYSTEM</title>
-		<!-- Favicon -->
-		<link rel="shortcut icon" href="assets/images/favicon.ico">
-		<!-- Css -->
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-		<link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
-	</head>
-	
-	<body>
-		
-		<div class="wrapper">
-			<!-- Login block -->
-			<div id="login-block" class="login">
-				<div class="my-5">
-					<div class="container">
-						<div class="row justify-content-center">
-							<div class="login__form-intro">
-							<h2>
-								NSV VIDEO MEETING SYSTEM <span>Ver 1.0</span>
-								<div class="clearfix"></div>
-							</h2>
-							</div>
-							<div class="col-xl-4">
-							<div class="card">
-								<div class="p-0">
-									<div class="row g-0">
-										<div class="col-lg-12 bg-white p-4">
-										<h3 class="mb-4 text-center login__form-title">Please Login</h3>
-										<form>
-											<p class="login__error-message" id="login-error-message"></p>
-											<div class="mb-3">
-												<label class="form-label">User<span class="login__required-symbol"> *</span></label>
-												<div class="input-group">
-													<span class="input-group-text">
-													<i class="icon-dual" data-feather="user"></i>
-													</span>
-													<input type="text" class="form-control" id="txt-username" placeholder="User">
-												</div>
-											</div>
-											<div class="mb-3">
-												<label class="form-label">Password<span class="login__required-symbol"> *</span></label>
-												<div class="input-group">
-													<span class="input-group-text">
-													<i class="icon-dual" data-feather="lock"></i>
-													</span>
-													<input type="password" class="form-control" id="txt-password" placeholder="Enter your password">
-												</div>
-											</div>
-											<div class="mb-3">
-												<label class="form-label">Your Name<span class="login__required-symbol"> *</span></label>
-												<div class="input-group">
-													<span class="input-group-text">
-													<i class="icon-dual" data-feather="edit"></i>
-													</span>
-													<input type="text" autocomplete="off" id="nick-name" class="pass-key input-login form-control" placeholder="Enter your name" maxlength="100"/>               
-												</div>
-											</div>
-											<div class=" text-center d-grid">
-												<button class="btn btn-primary" type="button" id="btn-sign-up">Log In</button>
-											</div>
-										</form>
-										</div>
-									</div>
-								</div>
-								<!-- end card-body -->
-							</div>
-							<!-- end card -->
-							<!-- end row -->
-							</div>
-							<!-- end col -->
-						</div>
-						<!-- end row -->
-					</div>
-					<!-- end container -->
-				</div>
-			</div>
-			<!-- End login block -->
-			
-			<!-- Chat block -->
-			<div id="chat-block">
-				<div class="hidden-info">
-					<input id="my-peer-id" type="hidden" disabled>
-					<input id="my-latitude" type="hidden" disabled>
-					<input id="my-longitude" type="hidden" disabled>
-				</div>
-				<div class="navbar-custom">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-6">
-							<h2>NSV VIDEO MEETING SYSTEM <span>Ver 1.0</span></h2>
-							</div>
-							<div class="col-md-6">
-								<ul class="list-unstyled topnav-menu float-end ">
-								<li>
-									<div class="navbar__date">
-										<div class="navbar__date-item navbar__date-item--day">2022/10/14</div>
-										<span class="text-white mx-1">-</span>
-										<div class="navbar__date-item navbar__date-item--time">9:25:46</div>
-									</div>
-								</li>
-								<li class="dropdown d-lg-inline-block topbar-dropdown">
-									<a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-									<i data-feather="user" style="height:14px"></i> <span class="align-middle" id="header-username">Vietnam</span>
-									</a>
-									<div class="dropdown-menu dropdown-menu-end">
-										<a href="/index.html" class="dropdown-item">
-										<span class="align-middle" style="color:#000">Logout</span>
-										</a>
-									</div>
-								</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					</div>
-
-					<div class="content-page">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-9">
-								<div class="row">
-									<div class="video-local">
-									<div class="card">
-										<div class="card-body">
-											<div class="video__description">
-												<button class="badge btn-secondary show-map">
-												<i class="stream__location-btn" data-feather="map"></i>Location
-												</button>
-												<div class="badge text-dark text-bold"><span id="local-dname"></span></div>
-											</div>
-											<video id="local-stream" poster="assets/images/video1.jpg"></video>
-										</div>
-									</div>
-									</div>
-									
-									<div class="col-md-5 mb-5">
-									<div class="card video-grid__item">
-										<div class="card-body">
-											<div class="video__description">
-												<button class="badge btn-secondary show-map">
-												<i class="stream__location-btn" data-feather="map"></i>
-												<span>Location</span>
-												</button>
-												<div class="badge text-dark text-bold remote-dname">Name</div>
-											</div>
-											<video poster="assets/images/empty.jpg"></video>
-										</div>
-									</div>
-									</div>
-
-									<div class="col-md-2"></div>
-									<div class="col-md-5 mb-5">
-									<div class="card video-grid__item">
-										<div class="card-body">
-											<div class="video__description text-right">
-												<div class="badge text-dark text-bold remote-dname">Name</div>
-												<button class="badge btn-secondary show-map">
-												<i class="stream__location-btn" data-feather="map"></i>
-												<span>Location</span>
-												</button>
-											</div>
-											<video poster="assets/images/empty.jpg"></video>
-										</div>
-									</div>
-									</div>
-
-									<div class="col-md-5">
-									<div class="card  video-grid__item">
-										<div class="card-body">
-											<div class="video__description">
-												<button class="badge btn-secondary show-map">
-												<i class="stream__location-btn" data-feather="map"></i>
-												<span>Location</span>
-												</button>
-												<div class="badge text-dark text-bold remote-dname">Name</div>
-											</div>
-											<video poster="assets/images/empty.jpg"></video>
-										</div>
-									</div>
-									</div>
-
-									<div class="col-md-2"></div>
-									<div class="col-md-5">
-									<div class="card video-grid__item">
-										<div class="card-body">
-											<div class="video__description text-right">
-												<div class="badge text-dark text-bold remote-dname">Name</div>
-												<button class="badge btn-secondary show-map">
-												<i class="stream__location-btn" data-feather="map"></i>
-												<span>Location</span>
-												</button>
-											</div>
-											<video poster="assets/images/empty.jpg"></video>
-										</div>
-									</div>
-									</div>
-
-								</div>
-							</div>
-							<div class="col-md-3">
-								<section class="chat">
-									<section class="chat__window" id="chat-window">
-									</section>
-									<form class="chat__form" id="chat-form">
-									<input type="text" id="msg" placeholder="Type a message" />
-									<button>
-										<svg class="chatbox__img-send-btn" viewBox="0 0 24 24">
-											<path fill="rgba(0,0,0,.38)" d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
-										</svg>
-									</button>
-									</form>
-								</section>
-							</div>
-						</div>
-						</div>
-					</div>
-
-					<footer class="footer">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-12 text-center">
-								2022 &copy; by Netsurf Vietnam. All Rights Reserved 
-							</div>
-						</div>
-					</div>
-					</footer>
-			</div>
-			<!-- End chat block -->
-
-			<div id="cover-loader" class="cover">
-				<div id="loader" class="cover__loader"></div>
-			</div>
-		</div>
-
-		<div id="map-modal" class="modal" tabindex="-1">
-			<div class="modal-dialog modal-dialog-centered modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Map Location</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div id="google-map" class="modal__google-map"></div>
-				</div>
-			</div>
-			</div>
-		</div>
-
-		<script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="assets/js/jquery.min.js"></script>     
-		<script src="main.js"></script>
-
-	</body>
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=, initial-scale=1.0">
+      <title>NSV VIDEO MEETING SYSTEM</title>
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="assets/images/favicon.ico">
+      <!-- Css -->
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+   </head>
+   <body>
+      <div class="wrapper">
+         <!-- Login block -->
+         <div id="login-block" class="login">
+            <div class="my-5">
+               <div class="container">
+                  <div class="row justify-content-center">
+                     <div class="login__form-intro">
+                        <h2>
+                           NSV VIDEO MEETING SYSTEM <span>Ver 1.0</span>
+                           <div class="clearfix"></div>
+                        </h2>
+                     </div>
+                     <div class="col-xl-4">
+                        <div class="card">
+                           <div class="p-0">
+                              <div class="row g-0">
+                                 <div class="col-lg-12 bg-white p-4">
+                                    <h3 class="mb-4 text-center login__form-title">Please Login</h3>
+                                    <form>
+                                       <p class="login__error-message" id="login-error-message"></p>
+                                       <div class="mb-3">
+                                          <label class="form-label">User<span class="login__required-symbol"> *</span></label>
+                                          <div class="input-group">
+                                             <span class="input-group-text">
+                                             <i class="icon-dual" data-feather="user"></i>
+                                             </span>
+                                             <input type="text" class="form-control" id="txt-username" placeholder="User">
+                                          </div>
+                                       </div>
+                                       <div class="mb-3">
+                                          <label class="form-label">Password<span class="login__required-symbol"> *</span></label>
+                                          <div class="input-group">
+                                             <span class="input-group-text">
+                                             <i class="icon-dual" data-feather="lock"></i>
+                                             </span>
+                                             <input type="password" class="form-control" id="txt-password" placeholder="Enter your password">
+                                          </div>
+                                       </div>
+                                       <div class="mb-3">
+                                          <label class="form-label">Your Name<span class="login__required-symbol"> *</span></label>
+                                          <div class="input-group">
+                                             <span class="input-group-text">
+                                             <i class="icon-dual" data-feather="edit"></i>
+                                             </span>
+                                             <input type="text" autocomplete="off" id="nick-name" class="pass-key input-login form-control" placeholder="Enter your name" maxlength="100"/>               
+                                          </div>
+                                       </div>
+                                       <div class=" text-center d-grid">
+                                          <button class="btn btn-primary" type="button" id="btn-sign-up">Log In</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- End login block -->
+         <!-- Chat block -->
+         <div id="chat-block">
+            <div class="hidden-info">
+               <input id="my-peer-id" type="hidden" disabled>
+               <input id="my-latitude" type="hidden" disabled>
+               <input id="my-longitude" type="hidden" disabled>
+            </div>
+            <div class="navbar-custom">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <h2>NSV VIDEO MEETING SYSTEM <span>Ver 1.0</span></h2>
+                     </div>
+                     <div class="col-md-6">
+                        <ul class="list-unstyled topnav-menu float-end ">
+                           <li>
+                              <div class="navbar__date">
+                                 <div class="navbar__date-item navbar__date-item--day">2022/10/14</div>
+                                 <span class="text-white mx-1">-</span>
+                                 <div class="navbar__date-item navbar__date-item--time">9:25:46</div>
+                              </div>
+                           </li>
+                           <li class="dropdown d-lg-inline-block topbar-dropdown">
+                              <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                              	<i data-feather="user"></i> <span class="align-middle" id="header-username">Vietnam</span>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-end">
+                                 <a href="/index.html" class="dropdown-item">
+                                 	<span class="align-middle text-dark">Logout</span>
+                                 </a>
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="content-page">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-md-9">
+                        <div class="row">
+                           <div class="video-local">
+                              <div class="card">
+                                 <div class="card-body">
+                                    <div class="video__description">
+                                       <button class="badge btn-secondary show-map">
+                                       <i class="stream__location-btn" data-feather="map"></i>Location
+                                       </button>
+                                       <div class="badge text-dark text-bold"><span id="local-dname"></span></div>
+                                    </div>
+                                    <video id="local-stream" poster="assets/images/video1.jpg"></video>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-5 mb-5">
+                              <div class="card video-grid__item">
+                                 <div class="card-body">
+                                    <div class="video__description">
+                                       <button class="badge btn-secondary show-map">
+                                       <i class="stream__location-btn" data-feather="map"></i>
+                                       <span>Location</span>
+                                       </button>
+                                       <div class="badge text-dark text-bold remote-dname">Name</div>
+                                    </div>
+                                    <video poster="assets/images/empty.jpg"></video>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-2"></div>
+                           <div class="col-md-5 mb-5">
+                              <div class="card video-grid__item">
+                                 <div class="card-body">
+                                    <div class="video__description text-right">
+                                       <div class="badge text-dark text-bold remote-dname">Name</div>
+                                       <button class="badge btn-secondary show-map">
+                                       <i class="stream__location-btn" data-feather="map"></i>
+                                       <span>Location</span>
+                                       </button>
+                                    </div>
+                                    <video poster="assets/images/empty.jpg"></video>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-5">
+                              <div class="card  video-grid__item">
+                                 <div class="card-body">
+                                    <div class="video__description">
+                                       <button class="badge btn-secondary show-map">
+                                       <i class="stream__location-btn" data-feather="map"></i>
+                                       <span>Location</span>
+                                       </button>
+                                       <div class="badge text-dark text-bold remote-dname">Name</div>
+                                    </div>
+                                    <video poster="assets/images/empty.jpg"></video>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-2"></div>
+                           <div class="col-md-5">
+                              <div class="card video-grid__item">
+                                 <div class="card-body">
+                                    <div class="video__description text-right">
+                                       <div class="badge text-dark text-bold remote-dname">Name</div>
+                                       <button class="badge btn-secondary show-map">
+                                       <i class="stream__location-btn" data-feather="map"></i>
+                                       <span>Location</span>
+                                       </button>
+                                    </div>
+                                    <video poster="assets/images/empty.jpg"></video>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <section class="chat">
+                           <section class="chat__window" id="chat-window">
+                           </section>
+                           <form class="chat__form" id="chat-form">
+                              <input type="text" id="msg" placeholder="Type a message" />
+                              <button>
+                                 <svg class="chatbox__img-send-btn" viewBox="0 0 24 24">
+                                    <path fill="rgba(0,0,0,.38)" d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
+                                 </svg>
+                              </button>
+                           </form>
+                        </section>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <footer class="footer">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-md-12 text-center">
+                        2022 &copy; by Netsurf Vietnam. All Rights Reserved 
+                     </div>
+                  </div>
+               </div>
+            </footer>
+         </div>
+      </div>
+      <!-- End wrapper -->
+      <div id="cover-loader" class="cover">
+         <div id="loader" class="cover__loader"></div>
+      </div>
+      <div id="map-modal" class="modal" tabindex="-1">
+         <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Map Location</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <div id="google-map" class="modal__google-map"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="assets/js/jquery.min.js"></script>     
+      <script src="main.js"></script>
+   </body>
 </html>
