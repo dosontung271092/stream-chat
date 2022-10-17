@@ -88,6 +88,18 @@ body {
   color: #fff;
 }
 
+.login__required-symbol {
+  color: red;
+}
+
+.login__error-message {
+  color: red;
+  background-color: pink;
+  padding: 10px;
+  font-weight: bold;
+  display: none;
+}
+
 .login__form-title {
   font-family: "PT Sans", sans-serif;
   font-weight: 600;
@@ -99,14 +111,6 @@ body {
 .login__form-intro {
   width: 100%;
   text-align: center;
-}
-
-.login__form-introh2 {
-  font-family: "PT Sans", sans-serif;
-  font-weight: 600;
-  color: #077bb4;
-  font-size: 22px;
-  line-height: 50px;
 }
 
 .login__form-intro span {
@@ -244,6 +248,8 @@ body {
   text-align: right;
 }
 
+
+/* Loader */
 .cover {
   position: fixed;
   z-index: 9999999;
@@ -265,6 +271,7 @@ body {
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
+
 /* Safari */
 @-webkit-keyframes spin {
   0% {
@@ -282,16 +289,10 @@ body {
     transform: rotate(360deg);
   }
 }
-.login__required-symbol {
-  color: red;
-}
-.login__error-message {
-  color: red;
-  background-color: pink;
-  padding: 10px;
-  font-weight: bold;
-  display: none;
-}
+
+/* End loader */
+
+
 
 .modal {
   z-index: 10000;
