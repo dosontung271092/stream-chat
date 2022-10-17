@@ -157,7 +157,7 @@ function openStream(){
 
 // Open video stream
 function playStream(IdElement, stream){
-    if( IdElement != null ){
+    if( IdElement ){
         const video = document.getElementById(IdElement);
         if(video){
             video.srcObject = stream;
@@ -218,9 +218,11 @@ socket.on('IOS_Message', (msgObj) => {
 _chatFormElement.addEventListener('submit', (e) => {
     e.preventDefault();
     const inputMessage = e.target.elements.msg.value;
-    // Send message to server
-    socket.emit('IOC_Message', inputMessage);
-    // Clear input value
+    if( inputMessage ){
+        // Send message to server
+        socket.emit('IOC_Message', inputMessage);
+        // Clear input value
+    }
     e.target.elements.msg.value = '';
     e.target.elements.msg.focus();
 
