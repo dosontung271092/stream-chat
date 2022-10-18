@@ -302,12 +302,6 @@ body {
   height: 400px;
 }
 
-.stream__location-btn {
-  height: 10px;
-  margin-right: 2px;
-  width: 10px;
-}
-
 .chatbox__img-send-btn {
   width: 24px;
   height: 24px;

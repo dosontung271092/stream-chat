@@ -102,6 +102,25 @@ socket.on('IOS_LoginResult', ({isSuccess, message, user = {}}) => {
 
 // *** VIDEO STREAM ***
 
+let streamMutedBtn = document.getElementById('stream-muted-btn');
+
+streamMutedBtn.addEventListener('click', e => {
+    
+    isMuted = streamMutedBtn.parentElement.parentElement.querySelector('video').muted;
+    
+    if( isMuted ){
+        e.target.innerHTML = 'Muted';
+        streamMutedBtn.parentElement.parentElement.querySelector('video').muted = false;
+
+    }else{
+        e.target.innerHTML = 'Unmuted';
+        streamMutedBtn.parentElement.parentElement.querySelector('video').muted = true;
+
+    }
+
+});
+
+
 // Get current users from server
 socket.on('IOS_UsersOnllineList', usersOnlline => {
 
