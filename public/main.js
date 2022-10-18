@@ -128,7 +128,7 @@ socket.on('IOS_UsersOnllineList', usersOnlline => {
                 // Display user info on video
                 let parentE = remoteVideoElement.parentElement;
                 parentE.querySelector('.remote-dname').innerHTML = user.dname;
-                parentE.querySelector('.time').style.display = "block";
+                parentE.querySelector('.video__description').style.display = "block";
                 parentE.querySelector('.show-map').setAttribute("onclick", `showMapLocation(${user.latitude}, ${user.longitude})`);
                 
                 // Call to open video of remote user
@@ -143,7 +143,7 @@ socket.on('IOS_UsersOnllineList', usersOnlline => {
     // Disconect
     socket.on('IOS_UserDisconnect', peerId => {
         videoElement = document.getElementById(peerId);
-        videoElement.parentElement.querySelector('.time').style.display = "none";
+        videoElement.parentElement.querySelector('.video__description').style.display = "none";
         videoElement.parentElement.innerHTML = videoElement.parentElement.innerHTML;
     });
 
